@@ -102,6 +102,8 @@
                                                     <rect key="frame" x="8" y="8" width="359" height="345.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="345.5" id="hK0-7n-AhA"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="345.5" id="lP6-v1-ZqQ"/>
+                                                        <constraint firstAttribute="width" constant="359" id="wcV-T0-67k"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ae-VI-9KT">

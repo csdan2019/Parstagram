@@ -61,7 +61,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+//DataRequest.addAcceptableImageContentTypes(["application/octet-stream"])
         // Do any additional setup after loading the view.
     }
     
