@@ -17,6 +17,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var tableView: UITableView!
     let commentBar = MessageInputBar()
     var posts = [PFObject]()
+    
+    var selectedPost: PFObject!
+    
+    
     var showsCommentBar = false
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,10 +42,28 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String) {
         //create the comment
         
+        let comment = PFObject(className: "Comments")
+        
+        comment ["text"] = text
+        comment["post"] = selectedPost
+        comment["author"] = PFUser.current()
+
+        selectedPost.add(comment, forKey: "comments")
+
+        selectedPost.saveInBackground {(success, error) in
+            if success {
+                print("Comment saved")
+            } else {
+                print("Error Saving Comment")
+            }
+        }
+        
+        tableView.reloadData()
         //clear and dismiss the input bar
         commentBar.inputTextView.text = nil
         showsCommentBar = false
-        becomeFirstResponder()
+       commentBar.inputTextView.resignFirstResponder()
+
     }
     
     
@@ -49,7 +71,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         commentBar.inputTextView.text = nil
         showsCommentBar = false
         becomeFirstResponder()
-        commentBar.inputTextView.resignFirstResponder()
         
     }
     
@@ -118,7 +139,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             let comment = comments[indexPath.row - 1]
             
-            cell.nameLabel.text = comment["text"] as? String
+            cell.commentLabel.text = comment["text"] as? String
             
             let user = comment["author"] as! PFUser
             cell.nameLabel.text = user.username
@@ -149,22 +170,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             becomeFirstResponder()
             
             commentBar.inputTextView.becomeFirstResponder()
+            
+            selectedPost = post
         }
-        
-        //
-//        comment ["text"] = "This is a random comment"
-//        comment["post"] = post
-//        comment["author"] = PFUser.current()
-//
-//        post.add(comment, forKey: "comments")
-//
-//        post.saveInBackground {(success, error) in
-//            if success {
-//                print("Comment saved")
-//            } else {
-//                print("Error Saving Comment")
-//            }
-//        }
+
     }
     @IBAction func onLogoutButton(_ sender: Any) {
         
